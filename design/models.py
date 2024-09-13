@@ -298,12 +298,21 @@ class DetailData(models.Model):
         on_delete=models.SET_NULL,
     )
     # 几何部分,长度单位均为毫米
-    width = models.IntegerField(verbose_name="梯段板宽度 B0(mm)", default=1270)
-    top_to_length = models.IntegerField(verbose_name="顶端上边长 Lt(mm)", default=400)
-    top_thickness = models.IntegerField(verbose_name="顶端板厚 h1(mm)", default=200)
-    top_b = models.IntegerField(verbose_name="顶端挑耳宽度 b1(mm)", default=80)
-    bottom_top_length = models.IntegerField(verbose_name="底端上边长 Lb(mm)", default=400)
-    bottom_thickness = models.IntegerField(verbose_name="底端板厚 h2(mm)", default=200)
+    width = models.IntegerField(
+        verbose_name="梯段板宽度 B0(mm)",
+        help_text="此参数需和结构设计端保持一致"
+    )
+    top_to_length = models.IntegerField(
+        verbose_name="顶端上边长 Lt(mm)",
+        help_text="此参数需和结构设计端保持一致"
+    )
+    bottom_top_length = models.IntegerField(
+        verbose_name="底端上边长 Lb(mm)",
+        help_text="此参数需和结构设计端保持一致"
+    )
+    top_thickness = models.IntegerField(verbose_name="顶端板厚 h1(mm)")
+    bottom_thickness = models.IntegerField(verbose_name="底端板厚 h2(mm)")
+    top_b = models.IntegerField(verbose_name="顶端挑耳宽度 b1(mm)", default=0)
     bottom_b = models.IntegerField(verbose_name="底端挑耳宽度 b2(mm)", default=0)
     # 外观设计
     HOLE_DESIGN_MODE_CHOICE = (
@@ -492,7 +501,7 @@ class DetailData(models.Model):
         (WaterDripLayout.BOTH.value, "上侧和下侧"),
     )
     water_drip_layout = models.IntegerField(
-        verbose_name="滴水槽设计方式",
+        verbose_name="滴水槽布局方式",
         choices=WATER_DRIP_LAYOUT_CHOICE,
         default=WaterDripLayout.BOTH.value,
     )

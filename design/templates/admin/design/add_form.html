@@ -3,17 +3,17 @@
 {% block field_sets %}
     <div class="custom-fieldsets">
         {% for custom_row in custom_fieldsets %}
-        <div class="module grp-module grp-row">
-            <div class="field-box l-2c-fluid l-d-4" style="width: 100%;">
-                {% for column in custom_row %}
-                <div style="float:{{ column.float }};width:{{ column.width }};">
-                    {% for fieldset in column.column %}
-                    {% include "admin/design/custom_fieldset.html" %}
+            <div class="module grp-module grp-row">
+                <div class="field-box l-2c-fluid l-d-4" style="width: 100%;">
+                    {% for column in custom_row %}
+                    <div style="float:{{ column.float }};width:{{ column.width }};">
+                        {% for fieldset in column.column %}
+                        {% include "admin/design/custom_fieldset.html" %}
+                        {% endfor %}
+                    </div>
                     {% endfor %}
                 </div>
-                {% endfor %}
             </div>
-        </div>
         {% endfor %}
     </div>
 {% endblock %}

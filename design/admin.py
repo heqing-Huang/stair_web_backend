@@ -433,46 +433,20 @@ class AdminDetailData(CustomFieldSetAdmin):
             ]
         ],
         [
-            [("几何参数", {"fields": ["side_schematic_diagram"]})],
-            [(".", {"fields": ["up_schematic_diagram"]})],
+            [("几何参数", {"fields": ["side_schematic_diagram",
+                                      "width",
+                                      "top_to_length",
+                                      "bottom_top_length"]})],
+            [(".", {"fields": ["up_schematic_diagram",
+                               "top_thickness",
+                               "bottom_thickness",
+                               "top_b",
+                               "bottom_b",]})],
         ],
+        # select 框
         [
             [
-                (
-                    "",
-                    {
-                        "fields": [
-                            "width",
-                            "top_to_length",
-                            "top_thickness",
-                            "top_b",
-                        ],
-                    },
-                ),
-            ],
-            [
-                (
-                    "",
-                    {
-                        "fields": [
-                            "bottom_top_length",
-                            "bottom_thickness",
-                            "bottom_b",
-                        ]
-                    },
-                )
-            ],
-        ],
-        [
-            [
-                (
-                    "钢筋深化设计",
-                    {
-                        "fields": [
-                            "rebar_design_mode",
-                        ]
-                    },
-                )
+                ("钢筋深化设计", {"fields": ["rebar_design_mode"]})
             ],
         ],
         [
@@ -553,19 +527,7 @@ class AdminDetailData(CustomFieldSetAdmin):
             ],
         ],
         # 吊装预埋件设计相关
-        [[("吊装预埋件设计", {"fields": []})]],
-        [
-            [
-                (
-                    "",
-                    {
-                        "fields": [
-                            "hoist_design_mode",
-                        ]
-                    },
-                )
-            ]
-        ],
+        [[("吊装预埋件设计", {"fields": ["hoist_design_mode"]})]],
         [
             [
                 (
@@ -589,13 +551,13 @@ class AdminDetailData(CustomFieldSetAdmin):
                     {
                         "fields": [
                             "demold_design_mode",
-                            "pouring_way",
-                            "demold_type",
-                            "demold_name",
                         ]
                     },
                 )
             ]
+        ],
+        [
+            [("", {"fields": ["pouring_way", "demold_type", "demold_name",]})]
         ],
         [
             [
@@ -912,21 +874,10 @@ class AdminDetailData(CustomFieldSetAdmin):
         [
             [
                 (
-                    "",
-                    {
-                        "fields": [
-                            "water_drip_layout",
-                        ]
-                    },
-                )
-            ]
-        ],
-        [
-            [
-                (
                     "滴水槽位置参数",
                     {
                         "fields": [
+                            "water_drip_layout",
                             "water_drip_position_a1",
                             "water_drip_position_a2",
                             "water_drip_position_a3",
@@ -937,27 +888,11 @@ class AdminDetailData(CustomFieldSetAdmin):
             [(".", {"fields": ["dsc_show"]})],
         ],
         [
-            [
-                (
-                    "",
-                    {
-                        "fields": [
-                            "water_drip_shape",
-                        ]
-                    },
-                )
-            ]
+            [("滴水槽截面参数", {"fields": ["water_drip_shape"]})],
         ],
         [
             [("", {"fields": ["tx_show"]})],
-            [
-                (
-                    "",
-                    {
-                        "fields": ["circle_show"],
-                    },
-                )
-            ],
+            [("", {"fields": ["circle_show"]})],
         ],
         [
             [
@@ -965,11 +900,9 @@ class AdminDetailData(CustomFieldSetAdmin):
                     "梯形截面参数",
                     {
                         "fields": [
-                            (
                                 "water_drip_trapezoid_a",
                                 "water_drip_trapezoid_b",
                                 "water_drip_trapezoid_c",
-                            ),
                         ]
                     },
                 ),
@@ -979,10 +912,8 @@ class AdminDetailData(CustomFieldSetAdmin):
                     "半圆截面",
                     {
                         "fields": [
-                            (
                                 "water_drip_semicircle_a",
                                 "water_drip_semicircle_b",
-                            ),
                         ]
                     },
                 )
