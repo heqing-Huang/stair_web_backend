@@ -1,0 +1,10 @@
+<div class="toplinks">
+    {% if status %}
+        <button class="grp-button"
+                style="width: 100%"
+                onclick="window.open('{{ link_url }}','_blank')">导出
+        </button>
+    {% else %}
+        <div class="grp-button">导出</div>
+    {% endif %}
+</div>

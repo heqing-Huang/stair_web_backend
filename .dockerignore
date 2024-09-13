@@ -1,0 +1,11 @@
+.git
+.editorconfig
+.env
+.env.template
+CHANGELOG.md
+COMMANDS.md
+Dockerfile
+INSTALL.md
+manage.py
+pyproject.toml
+README.md
