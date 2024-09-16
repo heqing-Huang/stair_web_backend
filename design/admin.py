@@ -528,6 +528,7 @@ class AdminDetailData(CustomFieldSetAdmin):
         ],
         # 吊装预埋件设计相关
         [[("吊装预埋件设计", {"fields": ["hoist_design_mode"]})]],
+        [[("", {"fields": ["hoist_type", "hoist_name"]})]],
         [
             [
                 (
@@ -542,7 +543,6 @@ class AdminDetailData(CustomFieldSetAdmin):
             ],
             [(".", {"fields": ["parts_up"]})],
         ],
-        [[("", {"fields": ["hoist_type", "hoist_name"]})]],
         # 脱模预埋件设计
         [
             [
@@ -567,38 +567,20 @@ class AdminDetailData(CustomFieldSetAdmin):
                         "fields": [
                             ("demold_position_a", "demold_position_b"),
                             ("demold_position_c", "demold_position_d"),
+                            "demold_position_t"
                         ]
                     },
                 )
             ],
             [(".", {"fields": ["demold_show"]})],
         ],
-        [[("", {"fields": ["demold_position_t"]})]],
         # 栏杆预埋件设计
         [
-            [
-                (
-                    "栏杆预埋件设计",
-                    {
-                        "fields": [
-                            "rail_design_mode",
-                            "rail_number",
-                            "rail_name",
-                        ]
-                    },
-                )
-            ]
+            [("栏杆预埋件设计", {"fields": ["rail_design_mode"]})]
         ],
         [
-            [("", {"fields": ["rail_layout"]})],
-            [
-                (
-                    "",
-                    {
-                        "fields": ["lgymj_show"],
-                    },
-                )
-            ],
+            [("栏杆预埋件相关参数", {"fields": ["rail_layout", "rail_number", "rail_name"]})],
+            [(".", {"fields": ["lgymj_show"]})],
         ],
         [
             [
@@ -666,11 +648,11 @@ class AdminDetailData(CustomFieldSetAdmin):
         [
             [
                 (
-                    "",
+                    "孔洞类型",
                     {
                         "fields": [
-                            "top_hole_type",
-                            "bottom_hole_type",
+                            ("top_hole_type",
+                            "bottom_hole_type")
                         ]
                     },
                 )
@@ -679,7 +661,7 @@ class AdminDetailData(CustomFieldSetAdmin):
         [
             [
                 (
-                    "",
+                    "固定铰支座孔洞示意图",
                     {
                         "fields": ["gdjzz_show"],
                     },
@@ -687,7 +669,7 @@ class AdminDetailData(CustomFieldSetAdmin):
             ],
             [
                 (
-                    "",
+                    "滑动铰支座孔洞示意图",
                     {
                         "fields": ["hdjzz_show"],
                     },
@@ -771,17 +753,8 @@ class AdminDetailData(CustomFieldSetAdmin):
             ]
         ],
         [
-            [
-                (
-                    "",
-                    {
-                        "fields": [
-                            "node_foot_show",
-                        ]
-                    },
-                )
-            ],
-            [("", {"fields": ["node_head_show"]})],
+            [("节点示意图", {"fields": ["node_foot_show"]})],
+            [(".", {"fields": ["node_head_show"]})],
         ],
         [
             [
@@ -891,8 +864,8 @@ class AdminDetailData(CustomFieldSetAdmin):
             [("滴水槽截面参数", {"fields": ["water_drip_shape"]})],
         ],
         [
-            [("", {"fields": ["tx_show"]})],
-            [("", {"fields": ["circle_show"]})],
+            [("滴水槽示意图", {"fields": ["tx_show"]})],
+            [(".", {"fields": ["circle_show"]})],
         ],
         [
             [
