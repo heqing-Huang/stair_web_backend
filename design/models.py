@@ -108,13 +108,17 @@ class ModelConstructionData(models.Model):
     thickness = models.IntegerField(verbose_name="梯段板厚度 t(mm)", null=True)
     weight = models.IntegerField(verbose_name="梯段板宽度 B0(mm)", null=True)
     clear_span = models.IntegerField(verbose_name="净跨 Ln(mm)", null=True)
-    top_top_length = models.IntegerField(verbose_name="顶端上边长 Lt(mm)", null=True)
-    bottom_top_length = models.IntegerField(verbose_name="底端上边长 Lb(mm)", null=True)
+    top_top_length = models.IntegerField(verbose_name="顶端上边长 Lt(mm)",
+                                         null=True)
+    bottom_top_length = models.IntegerField(verbose_name="底端上边长 Lb(mm)",
+                                            null=True)
     steps_number = models.IntegerField(verbose_name="踏步数 N", null=True)
 
     # 荷载
-    live_load = models.FloatField(verbose_name="可变荷载 qqk(kN / m^2)", null=True, default=3.5)
-    railing_load = models.FloatField(verbose_name="栏杆荷载 gf(kN/m)", null=True)
+    live_load = models.FloatField(verbose_name="可变荷载 qqk(kN / m^2)",
+                                  null=True, default=3.5)
+    railing_load = models.FloatField(verbose_name="栏杆荷载 gf(kN/m)",
+                                     null=True)
     permanent_load_partial_factor = models.FloatField(
         verbose_name="永久荷载分项系数 rG",
         null=True,
@@ -189,7 +193,8 @@ class ModelConstructionResult(models.Model):
     steps_h = models.FloatField(verbose_name="踏步高度 mm", null=True)
     steps_b = models.FloatField(verbose_name="踏步宽度 mm", null=True)
     l0 = models.IntegerField(verbose_name="计算跨度 mm", null=True)
-    cos = models.FloatField(verbose_name="梯段板与水平方向夹角余弦值", null=True)
+    cos = models.FloatField(verbose_name="梯段板与水平方向夹角余弦值",
+                            null=True)
     # 荷载
     gkt = models.FloatField(verbose_name="自重 kN/m", null=True)
     gk = models.FloatField(verbose_name="恒荷标准值 kN/m", null=True)
@@ -202,22 +207,33 @@ class ModelConstructionResult(models.Model):
     alpha_s = models.FloatField(verbose_name="alpha_s", null=True)
     ksi = models.FloatField(verbose_name="相对受压区高度变换系数ξ", null=True)
     ksi_b = models.FloatField(
-        null=True, blank=True, verbose_name="界限相对受压区高度变换系数", help_text="对应下层变动"
+        null=True, blank=True, verbose_name="界限相对受压区高度变换系数",
+        help_text="对应下层变动"
     )
     ksi_status = models.BooleanField(
-        verbose_name="状态 ξ相对于ξb | 界限相对受压区高度变换系数", null=True, default=False
+        verbose_name="状态 ξ相对于ξb | 界限相对受压区高度变换系数", null=True,
+        default=False
     )
-    p_c_min = models.FloatField(verbose_name="纵向受力钢筋最小配筋率 ρmin", null=True)
+    p_c_min = models.FloatField(verbose_name="纵向受力钢筋最小配筋率 ρmin",
+                                null=True)
     p_c = models.FloatField(verbose_name="受弯承载力计算配筋率", null=True)
-    as_1 = models.FloatField(verbose_name="受弯承载力配筋计算面积  As /mm^2", null=True)
-    as_2 = models.FloatField(verbose_name="上部纵筋按构造配筋的计算面积 mm^2", null=True)
-    as_3 = models.FloatField(verbose_name="分布钢筋按照单向板的最小配筋率进行计算 /mm^2", null=True)
-    as_fact_1 = models.FloatField(verbose_name="受弯承载力配筋实际面积  As /mm^2", null=True)
-    as_fact_2 = models.FloatField(verbose_name="上部纵筋按构造配筋的实际面积 mm^2", null=True)
+    as_1 = models.FloatField(verbose_name="受弯承载力配筋计算面积  As /mm^2",
+                             null=True)
+    as_2 = models.FloatField(verbose_name="上部纵筋按构造配筋的计算面积 mm^2",
+                             null=True)
+    as_3 = models.FloatField(
+        verbose_name="分布钢筋按照单向板的最小配筋率进行计算 /mm^2", null=True)
+    as_fact_1 = models.FloatField(
+        verbose_name="受弯承载力配筋实际面积  As /mm^2", null=True)
+    as_fact_2 = models.FloatField(
+        verbose_name="上部纵筋按构造配筋的实际面积 mm^2", null=True)
 
-    as_fact_3 = models.FloatField(verbose_name="分布钢筋实际面积 /mm^2", null=True)
-    d_fact_1 = models.FloatField(verbose_name="受弯承载力钢筋直径  d /mm", null=True)
-    d_fact_2 = models.FloatField(verbose_name="上部纵筋钢筋直径 d /mm", null=True)
+    as_fact_3 = models.FloatField(verbose_name="分布钢筋实际面积 /mm^2",
+                                  null=True)
+    d_fact_1 = models.FloatField(verbose_name="受弯承载力钢筋直径  d /mm",
+                                 null=True)
+    d_fact_2 = models.FloatField(verbose_name="上部纵筋钢筋直径 d /mm",
+                                 null=True)
     d_fact_3 = models.FloatField(verbose_name="分布钢筋直径  d /mm", null=True)
     spacing_fact_1 = models.IntegerField(
         verbose_name="受弯承载力钢筋间距  spacing /mm", null=True
@@ -225,21 +241,30 @@ class ModelConstructionResult(models.Model):
     spacing_fact_2 = models.IntegerField(
         verbose_name="上部纵筋钢筋钢筋间距  spacing /mm", null=True
     )
-    spacing_fact_3 = models.IntegerField(verbose_name="分布钢筋间距  spacing /mm", null=True)
+    spacing_fact_3 = models.IntegerField(
+        verbose_name="分布钢筋间距  spacing /mm", null=True)
     # 挠度
     mq = models.FloatField(verbose_name="永久组合弯矩值Mq kN*m", null=True)
-    sigma_sq = models.FloatField(verbose_name="纵向受拉钢筋的应力 sq N/mm", null=True)
+    sigma_sq = models.FloatField(verbose_name="纵向受拉钢筋的应力 sq N/mm",
+                                 null=True)
     a_te = models.FloatField(verbose_name="矩形截面面积 mm^2", null=True)
     p_te = models.FloatField(verbose_name="矩形截面配筋率 ρte", null=True)
     fi_i = models.FloatField(verbose_name="钢筋应变不均匀系数φq", null=True)
-    fi = models.FloatField(verbose_name="调整后钢筋应变不均匀系数φq", null=True)
-    alpha_e = models.FloatField(verbose_name="钢筋弹性模量与混凝土弹性模量比值", null=True)
-    gama_f = models.FloatField(verbose_name="受压翼缘面积与腹板有效面积比值 γf", null=True)
+    fi = models.FloatField(verbose_name="调整后钢筋应变不均匀系数φq",
+                           null=True)
+    alpha_e = models.FloatField(
+        verbose_name="钢筋弹性模量与混凝土弹性模量比值", null=True)
+    gama_f = models.FloatField(
+        verbose_name="受压翼缘面积与腹板有效面积比值 γf", null=True)
     p_t = models.FloatField(verbose_name="纵向受拉钢筋配筋率ρ", null=True)
-    b_s = models.FloatField(verbose_name="受弯构件的短期刚度 Bsq N*mm^2", null=True)
-    b_l = models.FloatField(verbose_name="受弯构件长期刚度B  N*mm^2", null=True)
-    theta = models.FloatField(verbose_name="考虑荷载长期效应组合对挠度影响增大影响系数 θ", null=True)
-    m_theta = models.FloatField(verbose_name="受压钢筋面积与受拉钢筋面积比值", null=True)
+    b_s = models.FloatField(verbose_name="受弯构件的短期刚度 Bsq N*mm^2",
+                            null=True)
+    b_l = models.FloatField(verbose_name="受弯构件长期刚度B  N*mm^2",
+                            null=True)
+    theta = models.FloatField(
+        verbose_name="考虑荷载长期效应组合对挠度影响增大影响系数 θ", null=True)
+    m_theta = models.FloatField(verbose_name="受压钢筋面积与受拉钢筋面积比值",
+                                null=True)
     deflection_maxk = models.FloatField(verbose_name="受弯构件挠度", null=True)
     deflection_limit = models.FloatField(verbose_name="挠度限值 mm", null=True)
     deflection_status = models.BooleanField(
@@ -253,9 +278,12 @@ class ModelConstructionResult(models.Model):
     # 裂缝
     v_i = models.FloatField(verbose_name="是否带肋钢筋决定 Vi", null=True)
     rebar_n = models.IntegerField(verbose_name="单位面积钢筋根数", null=True)
-    c_s = models.IntegerField(verbose_name="最外层纵向受拉钢筋外边缘至受拉区底边的距离", null=True)
-    p_te_w = models.FloatField(verbose_name="裂缝验算矩形截面配筋率 ρte", null=True)
-    d_eq = models.FloatField(verbose_name="受拉区纵筋的等效直径 deq mm", null=True)
+    c_s = models.IntegerField(
+        verbose_name="最外层纵向受拉钢筋外边缘至受拉区底边的距离", null=True)
+    p_te_w = models.FloatField(verbose_name="裂缝验算矩形截面配筋率 ρte",
+                               null=True)
+    d_eq = models.FloatField(verbose_name="受拉区纵筋的等效直径 deq mm",
+                             null=True)
     crack_max = models.FloatField(verbose_name="受弯构件挠度  mm", null=True)
     crack_status = models.BooleanField(
         verbose_name="是否满足挠度规范要求", null=True, default=False
@@ -313,7 +341,8 @@ class DetailData(models.Model):
     top_thickness = models.IntegerField(verbose_name="顶端板厚 h1(mm)")
     bottom_thickness = models.IntegerField(verbose_name="底端板厚 h2(mm)")
     top_b = models.IntegerField(verbose_name="顶端挑耳宽度 b1(mm)", default=0)
-    bottom_b = models.IntegerField(verbose_name="底端挑耳宽度 b2(mm)", default=0)
+    bottom_b = models.IntegerField(verbose_name="底端挑耳宽度 b2(mm)",
+                                   default=0)
     # 外观设计
     HOLE_DESIGN_MODE_CHOICE = (
         (HoleDesignMode.AUTOMATIC.value, "自动"),
@@ -361,12 +390,12 @@ class DetailData(models.Model):
         error_message = "滴水槽设计模式为手动时,截面不可为空"
         if water_design_mode == WaterDripDesignMode.MANUAL:
             if (
-                self.water_drip_semicircle_a is None
-                or self.water_drip_semicircle_b is None
+                    self.water_drip_semicircle_a is None
+                    or self.water_drip_semicircle_b is None
             ) and (
-                self.water_drip_trapezoid_a is None
-                or self.water_drip_trapezoid_b is None
-                or self.water_drip_trapezoid_c is None
+                    self.water_drip_trapezoid_a is None
+                    or self.water_drip_trapezoid_b is None
+                    or self.water_drip_trapezoid_c is None
             ):
                 raise ValidationError(error_message)
 
@@ -468,21 +497,32 @@ class DetailData(models.Model):
 
     # 节点设计
     # 顶部节点外型尺寸
-    top_joint_a = models.IntegerField(verbose_name=" a(mm)", null=True, blank=True)
-    top_joint_b = models.IntegerField(verbose_name=" b(mm)", null=True, blank=True)
-    top_joint_c = models.IntegerField(verbose_name=" c(mm)", null=True, blank=True)
+    top_joint_a = models.IntegerField(verbose_name=" a(mm)", null=True,
+                                      blank=True)
+    top_joint_b = models.IntegerField(verbose_name=" b(mm)", null=True,
+                                      blank=True)
+    top_joint_c = models.IntegerField(verbose_name=" c(mm)", null=True,
+                                      blank=True)
     # 底部节点外型尺寸
-    bottom_joint_a = models.IntegerField(verbose_name=" a(mm)", null=True, blank=True)
-    bottom_joint_b = models.IntegerField(verbose_name=" b(mm)", null=True, blank=True)
-    bottom_joint_c = models.IntegerField(verbose_name=" c(mm)", null=True, blank=True)
+    bottom_joint_a = models.IntegerField(verbose_name=" a(mm)", null=True,
+                                         blank=True)
+    bottom_joint_b = models.IntegerField(verbose_name=" b(mm)", null=True,
+                                         blank=True)
+    bottom_joint_c = models.IntegerField(verbose_name=" c(mm)", null=True,
+                                         blank=True)
 
     # 防滑槽
     # 防滑槽参数
-    step_slot_a = models.IntegerField(verbose_name=" a(mm)", null=True, blank=True)
-    step_slot_b = models.IntegerField(verbose_name=" b(mm)", null=True, blank=True)
-    step_slot_c = models.IntegerField(verbose_name=" c(mm)", null=True, blank=True)
-    step_slot_d = models.IntegerField(verbose_name=" d(mm)", null=True, blank=True)
-    step_slot_e = models.IntegerField(verbose_name=" e(mm)", null=True, blank=True)
+    step_slot_a = models.IntegerField(verbose_name=" a(mm)", null=True,
+                                      blank=True)
+    step_slot_b = models.IntegerField(verbose_name=" b(mm)", null=True,
+                                      blank=True)
+    step_slot_c = models.IntegerField(verbose_name=" c(mm)", null=True,
+                                      blank=True)
+    step_slot_d = models.IntegerField(verbose_name=" d(mm)", null=True,
+                                      blank=True)
+    step_slot_e = models.IntegerField(verbose_name=" e(mm)", null=True,
+                                      blank=True)
     # 防滑槽位置参数
     step_slot_position_c1 = models.IntegerField(
         verbose_name=" c1(mm)", null=True, blank=True
@@ -641,14 +681,19 @@ class DetailData(models.Model):
     )
 
     # 吊装预埋件定位信息
-    hoist_position_a = models.IntegerField(verbose_name=" a(mm)", null=True, blank=True)
-    hoist_position_b = models.IntegerField(verbose_name=" b(mm)", null=True, blank=True)
-    hoist_position_c = models.FloatField(verbose_name=" c(mm)", null=True, blank=True)
-    hoist_position_d = models.FloatField(verbose_name=" d(mm)", null=True, blank=True)
+    hoist_position_a = models.IntegerField(verbose_name=" a(mm)", null=True,
+                                           blank=True)
+    hoist_position_b = models.IntegerField(verbose_name=" b(mm)", null=True,
+                                           blank=True)
+    hoist_position_c = models.FloatField(verbose_name=" c(mm)", null=True,
+                                         blank=True)
+    hoist_position_d = models.FloatField(verbose_name=" d(mm)", null=True,
+                                         blank=True)
 
     # 吊装预埋件规格
     hoist_name = models.CharField(
-        verbose_name="吊装预埋件规格", max_length=64, null=True, default="DJ-25-170"
+        verbose_name="吊装预埋件规格", max_length=64, null=True,
+        default="DJ-25-170"
     )
 
     # 脱模方式
@@ -712,8 +757,10 @@ class DetailData(models.Model):
     )
 
     # 栏杆位置
-    rail_position_a = models.FloatField(verbose_name=" a(mm)", null=True, blank=True)
-    rail_position_b = models.FloatField(verbose_name=" b(mm)", null=True, blank=True)
+    rail_position_a = models.FloatField(verbose_name=" a(mm)", null=True,
+                                        blank=True)
+    rail_position_b = models.FloatField(verbose_name=" b(mm)", null=True,
+                                        blank=True)
 
     # 栏杆埋件型号
     rail_name = models.CharField(
@@ -764,8 +811,10 @@ class ModelDetailedResult(models.Model):
     gk = models.FloatField(verbose_name="恒荷标准值 kN/m")
 
     # 吊装预埋件
-    gdk = models.FloatField(verbose_name="吊装预埋件自重标准值乘以动力系数 kN/m")
-    gek = models.FloatField(verbose_name="脱模预埋件自重标准值乘以动力系数 kN/m")
+    gdk = models.FloatField(
+        verbose_name="吊装预埋件自重标准值乘以动力系数 kN/m")
+    gek = models.FloatField(
+        verbose_name="脱模预埋件自重标准值乘以动力系数 kN/m")
     single_capacity_hosit = models.FloatField(verbose_name="受压区高度 /mm")
     hoist_type = models.IntegerField(
         verbose_name="吊装预埋件类型",
@@ -888,7 +937,8 @@ class ModelDetailedResult(models.Model):
         default=DetailData.POURING_WAY_CHOICE[0][0],
     )  # 浇筑形式
     q_k1 = models.FloatField(verbose_name="q_k1")
-    single_capacity_demold = models.FloatField(verbose_name="脱模预埋件单承载")  #
+    single_capacity_demold = models.FloatField(
+        verbose_name="脱模预埋件单承载")  #
     demold_type = models.IntegerField(
         verbose_name="吊装预埋件类型",
         choices=DetailData.DEMOLD_TYPE_CHOICE,
@@ -995,12 +1045,18 @@ class ModelDetailedResult(models.Model):
 
     # RailParameter
     rail_parameter_name = models.CharField(verbose_name="name", max_length=64)
-    rail_parameter_a = models.IntegerField(verbose_name="a", null=True, blank=True)
-    rail_parameter_b = models.IntegerField(verbose_name="b", null=True, blank=True)
-    rail_parameter_c = models.IntegerField(verbose_name="c", null=True, blank=True)
-    rail_parameter_d = models.IntegerField(verbose_name="d", null=True, blank=True)
-    rail_parameter_t = models.IntegerField(verbose_name="t", null=True, blank=True)
-    rail_parameter_fi = models.IntegerField(verbose_name="直径", null=True, blank=True)
+    rail_parameter_a = models.IntegerField(verbose_name="a", null=True,
+                                           blank=True)
+    rail_parameter_b = models.IntegerField(verbose_name="b", null=True,
+                                           blank=True)
+    rail_parameter_c = models.IntegerField(verbose_name="c", null=True,
+                                           blank=True)
+    rail_parameter_d = models.IntegerField(verbose_name="d", null=True,
+                                           blank=True)
+    rail_parameter_t = models.IntegerField(verbose_name="t", null=True,
+                                           blank=True)
+    rail_parameter_fi = models.IntegerField(verbose_name="直径", null=True,
+                                            blank=True)
     rail_parameter_depth = models.IntegerField(
         verbose_name="栏杆埋入深度", null=True, blank=True
     )
@@ -1034,7 +1090,8 @@ class RebarLayoutModel(models.Model):
     """
 
     stair = models.ForeignKey(
-        ModelConstructionData, verbose_name="所属楼梯", on_delete=models.CASCADE
+        ModelConstructionData, verbose_name="所属楼梯",
+        on_delete=models.CASCADE
     )
     content = models.JSONField(verbose_name="钢筋数据", null=True, blank=True)
 
@@ -1049,7 +1106,8 @@ class FileExport(models.Model):
     """
 
     stair = models.ForeignKey(
-        ModelConstructionData, verbose_name="导出文件", on_delete=models.CASCADE
+        ModelConstructionData, verbose_name="导出文件",
+        on_delete=models.CASCADE
     )
     ifc = models.FileField(
         verbose_name="IFC 模型文件",

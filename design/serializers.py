@@ -11,4 +11,7 @@ class Structure(serializers.ModelSerializer):
             "project_num",
             "component_num",
             "crack",
+            "weight",
+            "top_top_length",
+            "bottom_top_length"
         ]

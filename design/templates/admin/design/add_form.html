@@ -67,4 +67,73 @@
         toggleModuleContent(detailedElementNum);
     }
 </script>
+
+<script type="text/javascript" charset="utf-8">
+    (function ($) {
+        $(document).ready(function () {
+            let stair = $("#id_stair");
+            let widthObject = $("#id_width");
+            let topTopLengthObject = $("#id_top_to_length");
+            let bottomTopLengthObject = $("#id_bottom_top_length");
+
+            if (stair) {
+                // 关联参数自动获取显示问题
+                stair.change(function () {
+                    var stairID = $(this).val();
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/design/structure",
+                        method: "GET",
+                        success: function (data) {
+                            const stairData = data.results;
+                            let obj = stairData.find(item => item.id == stairID);
+                            if (obj) {
+                                const weight = obj.weight;
+                                const top_top_length = obj.top_top_length;
+                                const bottom_top_length = obj.bottom_top_length;
+                                widthObject.val(weight);
+                                topTopLengthObject.val(top_top_length);
+                                bottomTopLengthObject.val(bottom_top_length);
+                            }
+                        }
+                    });
+                });
+
+                // 关联参数的提示问题
+                function relatedRemind(label, parameter) {
+                    parameter.on("input", function () {
+                        const dataValue = parameter.val();
+                        $.ajax({
+                            url: "http://127.0.0.1:8000/design/structure",
+                            method: "GET",
+                            success: function (data) {
+                                const stairData = data.results;
+                                let obj = stairData.find(item => item.id == stair.val());
+                                if (obj) {
+                                    if (obj[label] !== parseInt(dataValue)) {
+                                        parameter.next(".grp-help").text("与结构设计参数不一致！").css("color", "red");
+                                    } else {
+                                        parameter.next(".grp-help").text("此参数需和结构设计端保持一致").css("color", "#9a9a9a");
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+
+                var relatedDict = {
+                    "weight": widthObject,
+                    "top_top_length": topTopLengthObject,
+                    "bottom_top_length": bottomTopLengthObject,
+                }
+
+                for (var [label, para] of Object.entries(relatedDict)) {
+                    relatedRemind(label, para);
+                }
+
+            }
+
+        });
+    })(grp.jQuery);
+</script>
+
 {% endblock %}

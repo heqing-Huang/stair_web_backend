@@ -41,7 +41,7 @@ class ViewDesignDownload(View):
 
 class DefaultLimitOffsetPagination(pagination.LimitOffsetPagination):
     max_limit = 20
-    default_limit = 1
+    default_limit = 10
 
 
 class StructureListAPI(ModelViewSet):

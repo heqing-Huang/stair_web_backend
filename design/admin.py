@@ -1019,7 +1019,9 @@ class AdminPageModelDetailedResult(admin.ModelAdmin):
 
 @admin.register(RebarLayoutModel)
 class RebarLayoutModelAdminPage(admin.ModelAdmin):
-    pass
+    list_display = [
+        "stair",
+    ]
 
 
 @admin.register(models.FileExport)
