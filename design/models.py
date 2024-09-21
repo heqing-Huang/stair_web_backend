@@ -50,6 +50,110 @@ def get_default_remark_name():
         max_id = 0
     return f"ST&JT-{max_id + 1}"
 
+class PreSetModelData(models.Model):
+    project_num = models.CharField(
+        verbose_name="项目编号",
+        null=True,
+        blank=True,
+        max_length=64,
+        default="",
+        help_text="下层结构计算需要该参数",
+    )
+    component_num = models.CharField(
+        verbose_name="构件编号",
+        null=True,
+        blank=True,
+        max_length=64,
+        default="",
+        help_text="下层结构计算需要该参数",
+    )
+
+    # 数据别名
+    remark_name = models.CharField(
+        verbose_name="参数编号",
+        null=True,
+        blank=False,
+        default=get_default_remark_name,
+        max_length=64,
+    )
+
+    # material 材质,对标 Material
+    rebar_name = models.CharField(
+        verbose_name="钢筋等级",
+        choices=REBAR_CONFIG_NAME,
+        default=REBAR_CONFIG_NAME[0][0],
+        max_length=32,
+    )
+    concrete_grade = models.IntegerField(
+        verbose_name="混凝土等级",
+        choices=CONCRETE_GRADE,
+        default=CONCRETE_GRADE[0][0],
+    )
+
+    # 构造相关
+    protective_layer_thickness = models.IntegerField(
+        verbose_name="保护层厚度 c(mm)", default=20
+    )
+    longitudinal_top_stress_bar_margin = models.IntegerField(
+        verbose_name="纵筋合力点边距 as(mm)", default=20
+    )
+
+    # 几何参数
+    height = models.IntegerField(verbose_name="楼梯高度 H(mm)", null=True)
+    thickness = models.IntegerField(verbose_name="梯段板厚度 t(mm)", null=True)
+    weight = models.IntegerField(verbose_name="梯段板宽度 B0(mm)", null=True)
+    clear_span = models.IntegerField(verbose_name="净跨 Ln(mm)", null=True)
+    top_top_length = models.IntegerField(verbose_name="顶端上边长 Lt(mm)", null=True)
+    bottom_top_length = models.IntegerField(verbose_name="底端上边长 Lb(mm)", null=True)
+    steps_number = models.IntegerField(verbose_name="踏步数 N", null=True)
+
+    # 荷载
+    live_load = models.FloatField(verbose_name="可变荷载 qqk(kN / m^2)",
+                                  null=True, default=3.5)
+    railing_load = models.FloatField(verbose_name="栏杆荷载 gf(kN/m)",
+                                     null=True)
+    permanent_load_partial_factor = models.FloatField(
+        verbose_name="永久荷载分项系数 rG",
+        null=True,
+        default=1.2,
+    )
+    live_load_load_partial_factor = models.FloatField(
+        verbose_name="可变荷载分项系数 rQ",
+        null=True,
+        default=1.4,
+    )
+    quasi_permanent_value_coefficient = models.FloatField(
+        verbose_name="准永久值系数 ψq",
+        null=True,
+        default=0.4,
+    )
+    combined_value_coefficient = models.FloatField(
+        verbose_name="组合值系数",
+        null=True,
+        default=0.7,
+    )
+    reinforced_concrete_bulk_density = models.FloatField(
+        verbose_name="钢筋混凝土容重 Rc(kN / m^2)",
+        null=True,
+        default=25.0,
+    )
+
+    # 限制设置
+    crack = models.FloatField(verbose_name="裂缝限制 (mm)", null=True)
+
+    # 深化设计相关参数
+    top_thickness = models.IntegerField(verbose_name="顶端板厚 h1(mm)", default=0)
+    bottom_thickness = models.IntegerField(verbose_name="底端板厚 h2(mm)", default=0)
+    top_b = models.IntegerField(verbose_name="顶端挑耳宽度 b1(mm)", default=0)
+    bottom_b = models.IntegerField(verbose_name="底端挑耳宽度 b2(mm)",
+                                   default=0)
+
+    def __str__(self):
+        return self.remark_name
+
+    class Meta:
+        verbose_name = "预设模型参数"
+        verbose_name_plural = verbose_name
 
 class ModelConstructionData(models.Model):
     """
@@ -80,6 +184,15 @@ class ModelConstructionData(models.Model):
         blank=False,
         default=get_default_remark_name,
         max_length=64,
+    )
+
+    # 外键楼梯预设参数
+    pre_stair = models.ForeignKey(
+        PreSetModelData,
+        verbose_name="预设参数",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     # material 材质,对标 Material

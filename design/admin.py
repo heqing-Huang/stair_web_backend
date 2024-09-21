@@ -18,6 +18,8 @@ from .models import (
     DetailData,
     ModelDetailedResult,
     RebarLayoutModel,
+
+    PreSetModelData,
 )
 
 _logger = logging.getLogger(__name__)
@@ -182,6 +184,86 @@ class CustomFieldSetAdmin(admin.ModelAdmin):
         context.update({"custom_fieldsets": custom_fieldsets})
         return super().render_change_form(request, context, add, change, form_url, obj)
 
+class PreCustomFieldSetAdmin(admin.ModelAdmin):
+    custom_fieldset = None
+    add_form_template = "admin/design/add_preset_model.html"
+    change_form_template = add_form_template
+
+    def get_custom_fieldset(self):
+        return self.custom_fieldset or ["__all__"]
+
+    def get_fieldsets(self, request, obj=None):
+        """
+        将原本fieldsets 设置方式,改造成为从custom_fieldsets 中提取
+        """
+        _return_data = []
+        if self.custom_fieldset:
+            for row in self.custom_fieldset:
+                for column in row:
+                    for item in column:
+                        _return_data.append(item)
+        else:
+            return [(None, {"fields": self.get_fields(request, obj)})]
+        return _return_data
+
+    def _get_custom_fields(self, context):
+        """
+        构建自定义的 fieldset 外层组装结构, 通过div浮动实现左右布局
+        """
+        adminform: helpers.AdminForm = context["adminform"]
+        form = adminform.form
+
+        custom_fieldsets_objs = []
+        styles = ["left", "right"]
+        if self.custom_fieldset:
+            for row in self.custom_fieldset:
+                mid_row = []
+                if len(row) == 1:
+                    width = "100%"
+                else:
+                    width = "50%"
+
+                for index, column in enumerate(row):
+                    column_obj = []
+                    for name, options in column:
+                        fieldset = helpers.Fieldset(
+                            form,
+                            name,
+                            readonly_fields=adminform.readonly_fields,
+                            model_admin=adminform.model_admin,
+                            **options
+                        )
+                        column_obj.append(fieldset)
+                    mid_row.append(
+                        {
+                            "width": width,
+                            "column": column_obj,
+                            "float": styles[index],
+                        }
+                    )
+                custom_fieldsets_objs.append(mid_row)
+        return custom_fieldsets_objs
+
+    def render_change_form(
+        self, request, context, add=False, change=False, form_url="", obj=None
+    ):
+        """
+        继承add & change 页面,在上下文中Context 中额外提供参数
+        Args:
+            request:
+            context:
+            add:
+            change:
+            form_url:
+            obj:
+
+        Returns:
+
+        """
+
+        custom_fieldsets = self._get_custom_fields(context)
+        context.update({"custom_fieldsets": custom_fieldsets})
+        return super().render_change_form(request, context, add, change, form_url, obj)
 
 @admin.register(ModelConstructionData)
 class AdminPageConstructionData(CustomFieldSetAdmin):
@@ -193,6 +275,9 @@ class AdminPageConstructionData(CustomFieldSetAdmin):
     # 针对两列布局所作
 
     custom_fieldset = [
+        [
+            [("预设模型", {"fields": ["pre_stair"]})]
+        ],
         # row
         [   # column
             [("项目", {"fields": ["project_num", "component_num"]})],
@@ -1033,3 +1118,72 @@ class FileExportAdminPage(admin.ModelAdmin):
         "zip_json",
         "dxf",
     ]
+
+@admin.register(PreSetModelData)
+class PreSetModelDataAdmin(PreCustomFieldSetAdmin):
+    list_display = ["remark_name"]
+    readonly_fields = ["up_schematic_diagram", "front_schematic_diagram"]
+    custom_fieldset = [
+        # row
+        [  # column
+            [("项目", {"fields": ["project_num", "component_num"]})],
+            [("楼梯", {"fields": ["remark_name"]})],
+        ],
+        # row
+        [
+            [("", {"fields": ["front_schematic_diagram"]})],
+            [("", {"fields": ["up_schematic_diagram"]})],
+        ],
+        # row
+        [
+            [("几何参数", {"fields": ["height",
+                                      "weight",
+                                      "top_top_length",
+                                      "steps_number"]})],
+            [(".", {"fields": ["thickness",
+                               "clear_span",
+                               "bottom_top_length"]})],
+        ],
+        # row
+        [
+            [("荷载参数", {"fields": [
+                "live_load",
+                "railing_load",
+                "permanent_load_partial_factor",
+                "live_load_load_partial_factor",
+                "quasi_permanent_value_coefficient",
+                "combined_value_coefficient",
+                "reinforced_concrete_bulk_density"]})
+            ],
+            [
+                ("材料参数", {"fields": ["rebar_name", "concrete_grade"]}),
+                ("构造要求", {"fields": ["protective_layer_thickness",
+                                         "longitudinal_top_stress_bar_margin"]}),
+                ("限制条件", {"fields": ["crack"]}),
+            ],
+        ],
+        [
+            [
+                ("深化设计参数", {"fields": [
+                    "top_thickness",
+                    "bottom_thickness",
+                    "top_b",
+                    "bottom_b",
+                ]})
+            ]
+        ],
+    ]
+
+    @admin.display(description="俯视图")
+    def up_schematic_diagram(self, _):
+        string_html = render_to_string(
+            "admin/design/modelconstructiondata/up_schematic_diagram.html"
+        )
+        return mark_safe(string_html)
+
+    @admin.display(description="正视图")
+    def front_schematic_diagram(self, _):
+        string_html = render_to_string(
+            "admin/design/modelconstructiondata/front_schematic_diagram.html"
+        )
+        return mark_safe(string_html)

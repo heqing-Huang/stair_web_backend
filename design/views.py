@@ -4,10 +4,10 @@ from rest_framework import pagination
 from rest_framework.viewsets import ModelViewSet
 from .tools import api_to_word, call_design_book
 from design import models, serializers
-from .models import ModelConstructionResult, ModelDetailedResult, ModelConstructionData
+from .models import ModelConstructionResult, ModelDetailedResult, ModelConstructionData, PreSetModelData
 
 
-# from django.shortcuts import render
+from django.shortcuts import render
 
 
 # Create your views here.
@@ -49,6 +49,17 @@ class StructureListAPI(ModelViewSet):
     pagination_class = DefaultLimitOffsetPagination
     permission_classes = []
     serializer_class = serializers.Structure
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        response.headers.setdefault("Access-Control-Allow-Origin", "*")
+        return response
+
+class PreSetModelAPI(ModelViewSet):
+    queryset = models.PreSetModelData.objects.all()
+    pagination_class = DefaultLimitOffsetPagination
+    permission_classes = []
+    serializer_class = serializers.StructurePreSet
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)

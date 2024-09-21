@@ -26,4 +26,9 @@ urlpatterns = [
         views.StructureListAPI.as_view({"get": "list"}),
         name="structure_list",
     ),
+    path(
+        "presetmodel",
+        views.PreSetModelAPI.as_view({"get": "list"}),
+        name="preset_model_list",
+    )
 ]

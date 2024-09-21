@@ -33,42 +33,45 @@
     }
 
     window.onload = function () {
-        function toggleModuleContent(content) {
-            // 遍历每一种深化设计
-            for (const [mode, num] of Object.entries(content)) {
-                const modeSelect = document.getElementById(mode);
+        if (document.getElementById("id_stair")) {
+            function toggleModuleContent(content) {
+                // 遍历每一种深化设计
+                for (const [mode, num] of Object.entries(content)) {
+                    const modeSelect = document.getElementById(mode);
 
-                const v = modeSelect.value;     // 0自动 1手动 2不计算
+                    const v = modeSelect.value;     // 0自动 1手动 2不计算
 
-                const detailedOuterDiv = modeSelect.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                    const detailedOuterDiv = modeSelect.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
 
-                var detailedHide = detailedOuterDiv.nextElementSibling;
-                detailedHide.style.display = "none";
-                for (var i = 1; i < num; i++) {
-                    if (parseInt(v) === 0 || parseInt(v) === 2) {
-                        detailedHide = detailedHide.nextElementSibling;
-                        detailedHide.style.display = "none";
-                    } else {
-                        detailedHide.style.display = "block";
-                        detailedHide = detailedHide.nextElementSibling;
-                        detailedHide.style.display = "block";
+                    var detailedHide = detailedOuterDiv.nextElementSibling;
+                    detailedHide.style.display = "none";
+                    for (var i = 1; i < num; i++) {
+                        if (parseInt(v) === 0 || parseInt(v) === 2) {
+                            detailedHide = detailedHide.nextElementSibling;
+                            detailedHide.style.display = "none";
+                        } else {
+                            detailedHide.style.display = "block";
+                            detailedHide = detailedHide.nextElementSibling;
+                            detailedHide.style.display = "block";
+                        }
                     }
                 }
             }
-        }
 
-        for (const mode of Object.keys(detailedElementNum)) {
-            var modeSelect = document.getElementById(mode);
-            modeSelect.addEventListener("change", function () {
-                toggleModuleContent(detailedElementNum)
-            });
-        }
+            for (const mode of Object.keys(detailedElementNum)) {
+                var modeSelect = document.getElementById(mode);
+                modeSelect.addEventListener("change", function () {
+                    toggleModuleContent(detailedElementNum)
+                });
+            }
 
-        toggleModuleContent(detailedElementNum);
+            toggleModuleContent(detailedElementNum);
+        }
     }
 </script>
 
 <script type="text/javascript" charset="utf-8">
+
     (function ($) {
         $(document).ready(function () {
             let stair = $("#id_stair");
@@ -132,7 +135,46 @@
 
             }
 
-        });
+            // 处理预设模型获取功能
+            function updateElements(elements, object) {
+                elements.forEach(element => {
+                    const label = element.id.slice(3);
+                    if (object.hasOwnProperty(label)) {
+                        element.value = object[label];
+                    }
+                })
+            }
+
+            $("#id_pre_stair").change(function () {
+                const preID = $(this).val();
+
+                if (preID) {
+                    console.log("检测到了预设参数选了值，进行相应关联")
+                    const inputs = document.querySelectorAll("input:not(.grp-button):not([type='hidden'])");
+                    const selects = document.querySelectorAll("select:not(#id_pre_stair)");
+                    // 发送请求获取预设模型数据
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/design/presetmodel",
+                        method: "GET",
+                        success: function (data) {
+                            const preModelData = data.results;
+                            let obj = preModelData.find(item => item.id == preID);
+                            // 执行赋值操作
+                            updateElements(inputs, obj);
+                            updateElements(selects, obj);
+                        }
+                    })
+                } else {
+                    console.log("无预设参数，用户自己输入（输入框恢复原始状态）");
+                    // 恢复默认状态
+                    const inputs = document.querySelectorAll("input:not(.grp-button):not([type='hidden'])");
+                    const selects = document.querySelectorAll("select:not(#id_pre_stair)");
+
+                    inputs.forEach(input => input.value = '');
+                    selects.forEach(select => select.selectedIndex = 0);
+                }
+            })
+        });     // ready
     })(grp.jQuery);
 </script>
 

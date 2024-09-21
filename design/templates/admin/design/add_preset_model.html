@@ -1,0 +1,32 @@
+{% extends "admin/change_form.html" %}
+{% load static i18n admin_modify admin_urls grp_tags %}
+{% block field_sets %}
+<div class="custom-fieldsets">
+    {% for custom_row in custom_fieldsets %}
+    <div class="module grp-module grp-row">
+        <div class="field-box l-2c-fluid l-d-4" style="width: 100%;">
+            {% for column in custom_row %}
+            <div style="float:{{ column.float }};width:{{ column.width }};">
+                {% for fieldset in column.column %}
+                {% include "admin/design/custom_fieldset.html" %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ block.super }}
+
+<script type="text/javascript" charset="utf-8">
+    (function ($) {
+        $(document).ready(function () {
+            console.log("预设参数模块正常运行")
+        });
+    })(grp.jQuery);
+</script>
+
+{% endblock %}
